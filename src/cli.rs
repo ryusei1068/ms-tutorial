@@ -1,5 +1,3 @@
-use std::fs::{File, OpenOptions};
-use std::io::{Result, Seek, SeekFrom};
 use std::path::PathBuf;
 use structopt::StructOpt;
 
