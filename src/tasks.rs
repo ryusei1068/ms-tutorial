@@ -44,6 +44,25 @@ pub fn add_task(journal_path: PathBuf, task: Task) -> Result<()> {
     Ok(())
 }
 
+pub fn edit_task(journal_path: PathBuf, task: Task, task_position: usize) -> Result<()> {
+    let file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .open(journal_path)?;
+    let mut tasks = collect_tasks(&file)?;
+
+    if task_position == 0 || task_position > tasks.len() {
+        return Err(Error::new(ErrorKind::InvalidInput, "Invalid Task ID"));
+    }
+
+    tasks[task_position - 1] = task;
+    file.set_len(0)?;
+    serde_json::to_writer(file, &tasks)?;
+
+    Ok(())
+}
+
 pub fn complete_task(journal_path: PathBuf, task_position: usize) -> Result<()> {
     // Open the file.
     let file = OpenOptions::new()
