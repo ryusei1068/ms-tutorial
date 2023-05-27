@@ -14,6 +14,11 @@ pub enum Action {
         #[structopt()]
         position: usize,
     },
+    Edit {
+        #[structopt()]
+        text: String,
+        position: usize,
+    },
     /// List all tasks in the journal file.
     List,
 }
